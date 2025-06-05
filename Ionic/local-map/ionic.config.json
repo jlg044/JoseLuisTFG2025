@@ -1,0 +1,7 @@
+{
+  "name": "local-map",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

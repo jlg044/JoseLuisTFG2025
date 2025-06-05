@@ -1,0 +1,115 @@
+.map-container {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 112px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.map-relative {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 8.38 / 6.56;
+}
+
+.map-image {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  z-index: 1;
+}
+
+.overlay-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  object-fit: fill;
+  opacity: 1;
+}
+
+.zona {
+  position: absolute;
+  z-index: 3;
+  opacity: 0.5;
+  pointer-events: none;
+  transition: background-color 0.3s ease;
+  border-radius: 3px;
+}
+
+.marker {
+  position: absolute;
+  z-index: 4;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+}
+
+.person-icon {
+  width: 100%;
+  height: 100%;
+}
+
+.dispositivo-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.fase-selector-vertical {
+  position: absolute;
+  top: 50%;
+  right: -100px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.leyenda-vertical {
+  position: absolute;
+  top: 225px;
+  left: -120px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px 12px;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  z-index: 10;
+   color: #222;
+  font-weight: 500;
+
+  .leyenda-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .color-box {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #999;
+    border-radius: 4px;
+  }
+}

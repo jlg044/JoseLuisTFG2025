@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="modoMapa" (ionChange)="cambiarModo($event)">
+      <ion-segment-button value="ubi">
+        <ion-label>Mapa</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="calor">
+        <ion-label>Mapa Calor</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="zonas">
+        <ion-label>Mapa Zonas</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="map-container">
+    <div class="image-wrapper">
+      <!-- Contenedor que define la proporción exacta del mapa -->
+      <div class="map-relative">
+        <!-- Imagen base del mapa -->
+        <img src="assets/MapaSmarthomeDef.png" class="map-image"/>
+
+        <!-- Imagen adicional superpuesta -->
+        <img *ngIf="modoMapa === 'calor'" src="assets/MapaSmarthomeDefZone.png" class="overlay-image" />
+        <img *ngIf="modoMapa === 'zonas'" src="assets/MapaSmarthomeDefZone.png" class="overlay-image" />
+
+        <!-- Zonas coloreadas -->
+        <ng-container *ngIf="modoMapa === 'zonas'">
+          <div *ngFor="let zona of zonas"
+              class="zona"
+              [style.left.%]="(zona.xMin / xMax) * 100"
+              [style.top.%]="(1 - (zona.yMax / yMax)) * 100"
+              [style.width.%]="((zona.xMax - zona.xMin) / xMax) * 100"
+              [style.height.%]="((zona.yMax - zona.yMin) / yMax) * 100"
+              [style.backgroundColor]="zona === zonaActualObj ? 'green' : '#cccccc88'">
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="modoMapa === 'calor'">
+          <div *ngFor="let zona of zonas"
+              class="zona"
+              [style.left.%]="(zona.xMin / xMax) * 100"
+              [style.top.%]="(1 - (zona.yMax / yMax)) * 100"
+              [style.width.%]="((zona.xMax - zona.xMin) / xMax) * 100"
+              [style.height.%]="((zona.yMax - zona.yMin) / yMax) * 100"
+              [style.backgroundColor]="obtenerColor(zona.contador)">
+          </div>
+        </ng-container>
+
+        <!-- Marcador de la persona -->
+        <div class="marker" *ngIf="modoMapa === 'ubi'" [style.left.%]="posX" [style.top.%]="posY">
+          <img src="assets/persona.png" class="person-icon"/>
+        </div>
+
+        <!-- Botones de cambio de fase solo visibles en modo calor -->
+        <div *ngIf="modoMapa === 'calor'" class="fase-selector-vertical">
+          <ion-button expand="block" [color]="faseVisualizada === 'mañana' ? 'primary' : 'medium'" (click)="faseVisualizada = 'mañana'; actualizarContadoresPorFase()">
+            Mañana
+          </ion-button>
+          <ion-button expand="block" [color]="faseVisualizada === 'tarde' ? 'primary' : 'medium'" (click)="faseVisualizada = 'tarde'; actualizarContadoresPorFase()">
+            Tarde
+          </ion-button>
+        </div>
+                <div *ngIf="modoMapa === 'calor'" class="leyenda-vertical">
+          <div class="leyenda-item">
+            <div class="color-box" style="background-color: rgba(255,0,0,0.5)"></div>
+            <span>Alta</span>
+          </div>
+          <div class="leyenda-item">
+            <div class="color-box" style="background-color: rgba(255,127,127,0.5)"></div>
+            <span>Media</span>
+          </div>
+          <div class="leyenda-item">
+            <div class="color-box" style="background-color: rgba(255,200,200,0.5)"></div>
+            <span>Baja</span>
+          </div>
+          <div class="leyenda-item">
+            <div class="color-box" style="background-color: rgba(255,255,255,0.5); border: 1px solid #ccc;"></div>
+            <span>Sin datos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="dispositivo-form">
+    <ion-item lines="none">
+      <ion-label position="stacked">Nombre del dispositivo a localizar</ion-label>
+      <ion-input [(ngModel)]="nuevoDispositivo" placeholder="Ej: IphoneSelu"></ion-input>
+    </ion-item>
+    <ion-button expand="block" (click)="enviarNombreDispositivo()" class="ion-margin-top">
+      Enviar nombre del dispositivo
+    </ion-button>
+  </div>
+</ion-content>
